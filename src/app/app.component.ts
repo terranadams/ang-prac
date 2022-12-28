@@ -6,9 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  persons = ['Max', 'Manuel', 'Anna']
 
-  onPersonCreated(name: string) {
-    this.persons.push(name)
-  }
+  
+
+
+
+  // persons = ['Max', 'Manuel', 'Anna']
+  // onPersonCreated(name: string) {
+  //   this.persons.push(name)
+  // }
 }

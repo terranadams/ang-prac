@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms'
+import { PersonsService } from 'src/app/services/persons.service';
 
 @Component({
   selector: 'app-person-input',
@@ -8,14 +9,17 @@ import { FormsModule } from '@angular/forms'
 })
 export class PersonInputComponent {
 
+  constructor(private prsService: PersonsService) {}
+
 
   @Output() personCreate = new EventEmitter()
 
   enteredPersonName = '' // in order to use [(ngModel)], we must import the FormsModule
 
     onCreatePerson() {
-      // console.log('Person creatd: ' + this.enteredPersonName)
-      this.personCreate.emit(this.enteredPersonName)
+      // console.log('Person created: ' + this.enteredPersonName)
+      // this.personCreate.emit(this.enteredPersonName) // we don't need this anymore now that we're using a service to send and recive data
+      this.prsService.addPerson(this.enteredPersonName)
       this.enteredPersonName = ''
     }
 

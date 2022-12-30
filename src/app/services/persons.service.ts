@@ -12,6 +12,9 @@ export class PersonsService {
     this.persons.push(name)
   }
 
+  removePerson(name: string) {
+    this.persons = this.persons.filter(person => person !== name)
+  }
 
   constructor() { }
 }

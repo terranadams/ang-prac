@@ -12,7 +12,7 @@ export class PersonInputComponent {
   constructor(private prsService: PersonsService) {}
 
 
-  @Output() personCreate = new EventEmitter()
+  // @Output() personCreate = new EventEmitter() // we don't need this now that we're relying on the service
 
   enteredPersonName = '' // in order to use [(ngModel)], we must import the FormsModule
 

@@ -21,4 +21,10 @@ export class PersonsComponent {
   ngOnInit() {
     this.personList = this.prsService.persons
   }
+
+  onDelete(name: string) {
+    this.prsService.removePerson(name) // updating data in service
+    this.personList = this.personList.filter(person => person !== name) // updating data in UI
+    // console.log('deleted person')
+  }
 }

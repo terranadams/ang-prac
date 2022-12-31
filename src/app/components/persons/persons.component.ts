@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { PersonsService } from 'src/app/services/persons.service';
 
 @Component({
@@ -13,6 +14,8 @@ export class PersonsComponent {
   // the line above isn't needed because we included the word 'private' in front of our constructor to declair its variable
 
   personList: string[] = []
+  personListSubscription!: Subscription // this is for unsubscribing from our subject when the component gets destroyed (to prevent memory leaks)
+  // also apparently I have to use a ! to declair the variable above to unsub from the subscription with it later
 
   constructor(private prsService: PersonsService) { // this gets run any time an instance of this component is made
 
@@ -20,11 +23,16 @@ export class PersonsComponent {
 
   ngOnInit() {
     this.personList = this.prsService.persons
+    this.personListSubscription = this.prsService.personsChanged.subscribe(persons => this.personList = persons) // this is how we make the component listen for data changes to render accordingly
   }
 
   onDelete(name: string) {
     this.prsService.removePerson(name) // updating data in service
-    this.personList = this.personList.filter(person => person !== name) // updating data in UI
-    // console.log('deleted person')
+    // this.personList = this.personList.filter(person => person !== name) // updating data in UI
+    // we use subjects to get the UI to reflect actual data automatically when it changes
+  }
+
+  ngOnDestroy() {
+    this.personListSubscription.unsubscribe()
   }
 }

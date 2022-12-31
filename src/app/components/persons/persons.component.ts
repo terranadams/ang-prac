@@ -13,6 +13,7 @@ export class PersonsComponent {
   //private prsService: PersonsService // this is a type declaration, not a value declaration
   // the line above isn't needed because we included the word 'private' in front of our constructor to declair its variable
 
+  isFetching = false
   personList: string[] = []
   personListSubscription!: Subscription // this is for unsubscribing from our subject when the component gets destroyed (to prevent memory leaks)
   // also apparently I have to use a ! to declair the variable above to unsub from the subscription with it later
@@ -22,8 +23,13 @@ export class PersonsComponent {
   }
 
   ngOnInit() {
-    this.personList = this.prsService.persons
-    this.personListSubscription = this.prsService.personsChanged.subscribe(persons => this.personList = persons) // this is how we make the component listen for data changes to render accordingly
+    this.isFetching = true
+    // this.personList = this.prsService.persons
+    this.prsService.fetchPersons()
+    this.personListSubscription = this.prsService.personsChanged.subscribe(persons => {
+      this.personList = persons
+      this.isFetching = false
+    }) // this is how we make the component listen for data changes to render accordingly
   }
 
   onDelete(name: string) {
